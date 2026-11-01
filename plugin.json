@@ -1,0 +1,19 @@
+{
+  "name": "postroom",
+  "version": "0.1.0",
+  "description": "Prepare social previews, schedule approved posts and inspect delivery in your Postroom workspace.",
+  "author": {
+    "name": "Not a Company Name Yet",
+    "url": "https://www.notacompanynameyet.com/"
+  },
+  "homepage": "https://social.notacompanynameyet.com/",
+  "extensions": {
+    "com.nousresearch.hermes": {
+      "servers": {
+        "postroom": {
+          "trust": "untrusted"
+        }
+      }
+    }
+  }
+}
