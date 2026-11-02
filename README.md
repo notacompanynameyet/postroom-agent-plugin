@@ -31,7 +31,7 @@ Hermes owns sign-in, token storage and refresh. Native configuration takes prece
 ```sh
 hermes plugins validate /path/to/postroom-agent-plugin --install-deps
 ```
-The full validator and fresh Hermes OAuth test have not yet been run. Do not describe this as a Nous-approved catalog plugin.
+Hermes portable admission validation and the security scan passed on 2 November 2026 against upstream e8639fd4312e5102d6f10c76b56406cb01c19092. The catalog structure validator also passed. Fresh Hermes OAuth and tool acceptance tests are still pending. Do not describe this as a Nous-approved catalog plugin.
 
 ## Gemini CLI
 
@@ -45,7 +45,7 @@ Inside the CLI:
 /mcp auth postroom
 /mcp list
 ```
-The root manifest uses Streamable HTTP and native OAuth discovery/DCR. No API key is embedded. Preserve normal approval prompts. The extension is prepared for testing. Add the gemini-cli-extension discovery topic only after host OAuth/tool tests succeed; gallery validation and listing are not asserted.
+The root manifest uses Streamable HTTP and native OAuth discovery/DCR. No API key is embedded. Preserve normal approval prompts. Installation with Gemini CLI 0.66.0 passed on 2 November 2026. The CLI recognized the Postroom skill and MCP server and correctly required authorization. Live OAuth and tool calls remain unverified. Add the gemini-cli-extension discovery topic only after host OAuth/tool tests succeed; gallery validation and listing are not asserted.
 
 ## OpenClaw / ClawHub
 
@@ -67,3 +67,16 @@ Verify the publisher owner and registry scan result. No successful ClawHub uploa
 - TikTok in this MCP uses inbox upload and requires completion in TikTok. Availability depends on provider permissions.
 - No local executables, install scripts, background processes, credential readers or added telemetry are bundled.
 - Postroom terms, privacy policy, allowances and provider limits apply. This package grants no billing bypass.
+
+## Microsoft 365 Copilot readiness
+
+This package is not a Microsoft marketplace app package. See Microsoft's MCP plugin guide:
+https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/build-mcp-plugins
+
+A compatibility check on 2 November 2026 found a concrete blocker: Microsoft's current DCR authentication requires the authorization server to issue a client secret. Postroom currently advertises only `token_endpoint_auth_methods_supported: ["none"]`. Do not configure the server as unauthenticated to work around this. Implement and review confidential-client support (or an approved static OAuth client flow), validate the tenant OAuth flow, then use Microsoft 365 Agents Toolkit to generate the tenant-specific authentication configuration and app package. Publisher onboarding and marketplace review are separate steps.
+
+Official requirement: https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/plugin-authentication-dynamic-client-registration
+
+## Validation boundary
+
+Passing the portable package validator and installing an extension do not prove a user can complete OAuth or invoke every hosted tool. An end-to-end test must authorize a dedicated workspace, inspect its accounts, save an unscheduled preview, verify it remains unscheduled, and revoke the grant. Any scheduling test requires explicit approval of that exact preview. Do not use a production post as an unapproved test. Gallery discovery remains pending until live client tests are completed.
