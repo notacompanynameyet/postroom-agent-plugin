@@ -1,4 +1,5 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "postroom",
   "version": "0.1.0",
   "description": "Prepare social previews, schedule approved posts and inspect delivery in your Postroom workspace.",
