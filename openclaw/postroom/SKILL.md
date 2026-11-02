@@ -28,7 +28,7 @@ Call yet_profile and yet_accounts; read yet_brand when drafting. Use only the si
 
 ## Prepare and approve
 
-1. Identify the exact destination accounts. Import user-selected attachments with yet_import_file and use returned workspace media URLs.
+1. Identify the exact destination accounts and use media already uploaded to this Postroom workspace. yet_import_file accepts trusted ChatGPT attachment URLs only; do not pass arbitrary OpenClaw/local/external attachment URLs. Ask the user to upload unsupported media in Postroom.
 2. Confirm a future date, time and timezone. Pass an ISO timestamp with an explicit offset.
 3. For Pinterest call yet_pinterest_boards for each selected account. Ask for a board unless an explicitly named board matches exactly one result. Pass board_ids keyed by account ID. Prepare a title up to 100 characters and description up to 800 characters. Ask whether to include a destination HTTPS URL; never invent one.
 4. Call yet_preview and show the exact text, media, destinations, boards, links and scheduled time. A preview is not scheduled.

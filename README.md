@@ -37,8 +37,12 @@ Hermes portable admission validation and the security scan passed on 2 November 
 
 This is separate from the Gemini app / Search Connected Apps program and does not implement A2A.
 ```sh
-gemini extensions install https://github.com/notacompanynameyet/postroom-agent-plugin
-gemini
+npx --yes @google/gemini-cli@0.66.0 extensions install https://github.com/notacompanynameyet/postroom-agent-plugin
+```
+
+Wait for installation to finish. Then open Gemini with a separate command:
+```sh
+npx --yes @google/gemini-cli@0.66.0
 ```
 Inside the CLI:
 ```text
@@ -80,3 +84,23 @@ Official requirement: https://learn.microsoft.com/en-us/microsoft-365/copilot/ex
 ## Validation boundary
 
 Passing the portable package validator and installing an extension do not prove a user can complete OAuth or invoke every hosted tool. An end-to-end test must authorize a dedicated workspace, inspect its accounts, save an unscheduled preview, verify it remains unscheduled, and revoke the grant. Any scheduling test requires explicit approval of that exact preview. Do not use a production post as an unapproved test. Gallery discovery remains pending until live client tests are completed.
+
+## OpenClaw downloadable bundle
+
+ClawHub accepts the dedicated Codex-format bundle in `distributions/openclaw/`. This is separate from the root Hermes Agent Plugins package: ClawHub CLI 0.25.0 currently accepts Codex/Claude/Cursor bundle markers, not the root portable Agent Plugins marker.
+
+- Preview bundle ZIP: `downloads/postroom-openclaw-0.1.0.zip`
+- Standalone skill ZIP: `downloads/postroom-skill-1.0.0.zip`
+- Source-only skill: `openclaw/postroom/SKILL.md`
+- Rebuild archives deterministically: `python3 scripts/build-openclaw-bundle.py`
+
+The bundle includes the skill. Users should install either the bundle or standalone skill, not both. Bundles include connection metadata; each user still needs their own Postroom OAuth grant. The standalone skill supplies instructions only.
+
+Validated using ClawHub CLI 0.25.0: package publish preflight/dry-run passed; Plugin Inspector target OpenClaw 2026.10.9 returned pass with zero issues/warnings. This is local preflight, not registry approval or completed live OAuth testing. Upload to ClawHub remains pending.
+
+Publishing from an authorized owner session:
+```sh
+clawhub package publish ./distributions/openclaw --family bundle-plugin --name @notacompanynameyet/postroom --owner notacompanynameyet --version 0.1.0 --bundle-format codex --host-targets openclaw --wait
+```
+
+For the standalone skill, use ClawHub's Skill → Import from GitHub with `openclaw/postroom`, or upload the SKILL.md folder. For the plugin use Plugin → Bundle plugin and the dedicated bundle ZIP. Do not upload the complete multi-platform repository ZIP as the ClawHub plugin.

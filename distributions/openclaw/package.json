@@ -1,0 +1,19 @@
+{
+  "name": "@notacompanynameyet/postroom",
+  "version": "0.1.0",
+  "description": "Plan social posts, prepare exact previews, schedule explicitly approved posts and inspect delivery in your own Postroom workspace.",
+  "type": "module",
+  "homepage": "https://social.notacompanynameyet.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notacompanynameyet/postroom-agent-plugin.git",
+    "directory": "distributions/openclaw"
+  },
+  "files": [
+    ".codex-plugin/plugin.json",
+    ".mcp.json",
+    "skills/",
+    "README.md",
+    "assets/icon.png"
+  ]
+}
