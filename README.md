@@ -104,3 +104,14 @@ clawhub package publish ./distributions/openclaw --family bundle-plugin --name @
 ```
 
 For the standalone skill, use ClawHub's Skill → Import from GitHub with `openclaw/postroom`, or upload the SKILL.md folder. For the plugin use Plugin → Bundle plugin and the dedicated bundle ZIP. Do not upload the complete multi-platform repository ZIP as the ClawHub plugin.
+
+
+## Local image upload helper (OpenClaw / terminal hosts)
+
+The content bundle does not execute local code. For hosts where a signed upload URL cannot safely move from an MCP result into a file-transfer tool, the optional standard-library Python helper `scripts/postroom-upload.py` performs the whole transfer inside one local process. It has its own public OAuth/PKCE browser authorization and does not read OpenClaw credentials or change Gateway configuration.
+
+Run `python3 scripts/postroom-upload.py --login --workspace YOUR_WORKSPACE_ID "/absolute/path/to/image.png"`. Select your intended Postroom workspace and publishing access. It verifies workspace identity and uploads only that local image. Publishing media is publicly accessible. It prints the owned media URL, never the signed upload URL, access token or refresh token. OAuth credentials are stored locally in `~/.postroom/image-uploader/oauth.json` (0600 in a 0700 directory). Later runs omit `--login` and refresh credentials when necessary. Revoke its grant in Postroom's assistant-access page when no longer needed.
+
+Supported images: JPEG, PNG and WebP, up to 3 MB. No third-party Python dependencies. Network redirects are refused. The helper does not prepare previews, schedule or publish. Use its media URL in your normal OpenClaw preview and exact-approval flow.
+
+Validation: `python3 -m unittest discover -s tests -p test_local_upload.py -v`. Local mocked transport/security tests pass. Live Mac OAuth, image upload and OpenClaw publication acceptance must still be observed; this helper is not evidence of completed publishing verification.
