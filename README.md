@@ -1,6 +1,6 @@
 # Postroom agent integration package
 
-Development package 0.1.0. Host-specific authenticated acceptance tests are pending. This repository is not evidence of Hermes catalog approval, Gemini app approval or ClawHub publication. Postroom is a product by Not a Company Name Yet, operated by Vardhiva Innovations.
+Multi-host integration package. OpenClaw Bluesky image automation passed a live test on 2 November 2026; Hermes catalog review and live OAuth testing, and Gemini/Antigravity verification remain pending. Postroom is a product by Not a Company Name Yet, operated by Vardhiva Innovations.
 
 ## Hermes Agent
 
@@ -53,13 +53,13 @@ The root manifest uses Streamable HTTP and native OAuth discovery/DCR. No API ke
 
 ## OpenClaw / ClawHub
 
-Publishable skill folder: openclaw/postroom. It documents native OAuth MCP setup.
-```sh
-clawhub login
-clawhub whoami
-clawhub skill publish ./openclaw/postroom --slug postroom --name "Postroom" --version 1.0.0
-```
-Verify the publisher owner and registry scan result. No successful ClawHub upload is asserted.
+The plugin and standalone skill are published on ClawHub:
+- https://clawhub.ai/notacompanynameyet/plugins/postroom
+- https://clawhub.ai/notacompanynameyet/postroom
+
+Updated source releases: OpenClaw bundle **0.1.1** and standalone skill **1.0.1**. Registry publication is a separate step; check the version displayed on ClawHub before installing. Both include the automatic image uploader and use one native OAuth MCP connection instead of bundled HTTP metadata, avoiding the OpenClaw 2026.9.6 Codex cwd issue.
+
+Read [the installation and automation guide](distributions/openclaw/README.md).
 
 ## Behaviour and disclosures
 
@@ -69,7 +69,7 @@ Verify the publisher owner and registry scan result. No successful ClawHub uploa
 - Writes can change publishing queues and publish to connected accounts. Show the exact immutable preview and obtain explicit approval first. A connection grant is not post approval.
 - Inspect status after uncertain writes; never create another draft as an automatic retry.
 - TikTok in this MCP uses inbox upload and requires completion in TikTok. Availability depends on provider permissions.
-- No local executables, install scripts, background processes, credential readers or added telemetry are bundled.
+- The root Hermes portable package has no executable hooks. OpenClaw distributions include an explicitly invoked Python image uploader; no install hooks, background processes or added telemetry. It stores only its own OAuth grant, never reads host credentials.
 - Postroom terms, privacy policy, allowances and provider limits apply. This package grants no billing bypass.
 
 ## Microsoft 365 Copilot readiness
@@ -85,33 +85,24 @@ Official requirement: https://learn.microsoft.com/en-us/microsoft-365/copilot/ex
 
 Passing the portable package validator and installing an extension do not prove a user can complete OAuth or invoke every hosted tool. An end-to-end test must authorize a dedicated workspace, inspect its accounts, save an unscheduled preview, verify it remains unscheduled, and revoke the grant. Any scheduling test requires explicit approval of that exact preview. Do not use a production post as an unapproved test. Gallery discovery remains pending until live client tests are completed.
 
-## OpenClaw downloadable bundle
+## Build and publish OpenClaw releases
 
-ClawHub accepts the dedicated Codex-format bundle in `distributions/openclaw/`. This is separate from the root Hermes Agent Plugins package: ClawHub CLI 0.25.0 currently accepts Codex/Claude/Cursor bundle markers, not the root portable Agent Plugins marker.
+- Bundle: `downloads/postroom-openclaw-0.1.1.zip`
+- Standalone skill: `downloads/postroom-skill-1.0.1.zip`
+- Rebuild: `python3 scripts/build-openclaw-bundle.py`
+- Validate: `python3 -m unittest discover -s tests -v`
 
-- Preview bundle ZIP: `downloads/postroom-openclaw-0.1.0.zip`
-- Standalone skill ZIP: `downloads/postroom-skill-1.0.0.zip`
-- Source-only skill: `openclaw/postroom/SKILL.md`
-- Rebuild archives deterministically: `python3 scripts/build-openclaw-bundle.py`
+Publish the dedicated bundle directory, not the complete multi-host repository:
 
-The bundle includes the skill. Users should install either the bundle or standalone skill, not both. Bundles include connection metadata; each user still needs their own Postroom OAuth grant. The standalone skill supplies instructions only.
-
-Validated using ClawHub CLI 0.25.0: package publish preflight/dry-run passed; Plugin Inspector target OpenClaw 2026.10.9 returned pass with zero issues/warnings. This is local preflight, not registry approval or completed live OAuth testing. Upload to ClawHub remains pending.
-
-Publishing from an authorized owner session:
 ```sh
-clawhub package publish ./distributions/openclaw --family bundle-plugin --name @notacompanynameyet/postroom --owner notacompanynameyet --version 0.1.0 --bundle-format codex --host-targets openclaw --wait
+clawhub package publish ./distributions/openclaw --family bundle-plugin --name @notacompanynameyet/postroom --owner notacompanynameyet --version 0.1.1 --bundle-format codex --host-targets openclaw --wait
+clawhub skill publish ./openclaw/postroom --slug postroom --name "Postroom" --version 1.0.1
 ```
 
-For the standalone skill, use ClawHub's Skill → Import from GitHub with `openclaw/postroom`, or upload the SKILL.md folder. For the plugin use Plugin → Bundle plugin and the dedicated bundle ZIP. Do not upload the complete multi-platform repository ZIP as the ClawHub plugin.
+Both commands require the intended publisher's ClawHub authorization. A source release does not imply the new registry version passed review.
 
+## Local image uploader
 
-## Local image upload helper (OpenClaw / terminal hosts)
+The reusable uploader is `scripts/postroom-upload.py`; identical copies ship inside both OpenClaw skill distributions. On first use run with `--login --workspace YOUR_WORKSPACE_ID /actual/image.png`, complete browser authorization, then omit --login for subsequent runs. See the bundled guide for permissions and data handling. The image-generation and transfer steps are performed by the host automatically; the user reviews only the exact publishing preview.
 
-The content bundle does not execute local code. For hosts where a signed upload URL cannot safely move from an MCP result into a file-transfer tool, the optional standard-library Python helper `scripts/postroom-upload.py` performs the whole transfer inside one local process. It has its own public OAuth/PKCE browser authorization and does not read OpenClaw credentials or change Gateway configuration.
-
-Run `python3 scripts/postroom-upload.py --login --workspace YOUR_WORKSPACE_ID "/absolute/path/to/image.png"`. Select your intended Postroom workspace and publishing access. It verifies workspace identity and uploads only that local image. Publishing media is publicly accessible. It prints the owned media URL, never the signed upload URL, access token or refresh token. OAuth credentials are stored locally in `~/.postroom/image-uploader/oauth.json` (0600 in a 0700 directory). Later runs omit `--login` and refresh credentials when necessary. Revoke its grant in Postroom's assistant-access page when no longer needed.
-
-Supported images: JPEG, PNG and WebP, up to 3 MB. No third-party Python dependencies. Network redirects are refused. The helper does not prepare previews, schedule or publish. Use its media URL in your normal OpenClaw preview and exact-approval flow.
-
-Validation: `python3 -m unittest discover -s tests -p test_local_upload.py -v`. Local mocked transport/security tests pass. Live Mac OAuth, image upload and OpenClaw publication acceptance must still be observed; this helper is not evidence of completed publishing verification.
+Live Mac OAuth, image upload and Bluesky publication succeeded on 2 November 2026. Delivery was independently confirmed with yet_queue and yet_post_status for post 6d517e38-654e-4a4c-8326-c60f091230fd. New archive clean-install testing, other platforms and load/revocation testing remain separate.

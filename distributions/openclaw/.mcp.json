@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "postroom": {
-      "type": "http",
-      "url": "https://social.notacompanynameyet.com/mcp"
-    }
-  }
-}
