@@ -1,0 +1,17 @@
+{
+  "name": "postroom",
+  "displayName": "Postroom",
+  "version": "0.1.0",
+  "description": "Connect your Postroom workspace to inspect social accounts, prepare publishing previews and schedule explicitly approved posts.",
+  "author": {
+    "name": "Not a Company Name Yet",
+    "url": "https://notacompanynameyet.com"
+  },
+  "homepage": "https://social.notacompanynameyet.com/ai-agents/claude",
+  "repository": "https://github.com/notacompanynameyet/postroom-agent-plugin",
+  "icon": "./assets/Postroom.svg",
+  "documentationUrl": "https://social.notacompanynameyet.com/docs",
+  "supportUrl": "https://social.notacompanynameyet.com/support",
+  "privacyPolicyUrl": "https://social.notacompanynameyet.com/privacy-policy",
+  "termsOfServiceUrl": "https://social.notacompanynameyet.com/terms-of-service"
+}
