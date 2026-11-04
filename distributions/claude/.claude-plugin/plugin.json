@@ -1,17 +1,17 @@
 {
   "name": "postroom",
   "displayName": "Postroom",
-  "version": "0.1.0",
-  "description": "Connect your Postroom workspace to inspect social accounts, prepare publishing previews and schedule explicitly approved posts.",
+  "version": "1.0.0",
+  "description": "Plan, preview, schedule, and track social posts across connected accounts using Postroom's secure workspace tools and explicit approval flows.",
   "author": {
-    "name": "Not a Company Name Yet",
-    "url": "https://notacompanynameyet.com"
+    "name": "Vardhiva Innovations",
+    "url": "https://social.notacompanynameyet.com"
   },
-  "homepage": "https://social.notacompanynameyet.com/ai-agents/claude",
+  "homepage": "https://social.notacompanynameyet.com",
   "repository": "https://github.com/notacompanynameyet/postroom-agent-plugin",
   "icon": "./assets/Postroom.svg",
-  "documentationUrl": "https://social.notacompanynameyet.com/docs",
+  "documentationUrl": "https://social.notacompanynameyet.com/docs/claude-connector",
   "supportUrl": "https://social.notacompanynameyet.com/support",
   "privacyPolicyUrl": "https://social.notacompanynameyet.com/privacy-policy",
-  "termsOfServiceUrl": "https://social.notacompanynameyet.com/terms-of-service"
+  "license": "Proprietary"
 }

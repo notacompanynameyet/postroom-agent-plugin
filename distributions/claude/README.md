@@ -1,19 +1,35 @@
-# Postroom for Claude
+# Postroom — social media publishing for Claude
 
-This plugin wraps the same Postroom hosted MCP connector. Each customer signs in through OAuth to their own workspace. It contains no credentials, local MCP process, cwd override, hooks or image-generation service.
+Postroom connects Claude to your own Postroom workspace, helping you inspect connected social accounts, work with saved brand voice, prepare previews, upload media, review publishing queues, schedule only content you explicitly approve, and read available analytics. This bundle combines three reusable workflow skills with Postroom's hosted, OAuth-protected MCP connector.
 
-## Local validation and test
+## What is included
 
-Requires Claude Code 2.1.281 or later. From this directory, run `claude plugin validate . --strict`. Load with `claude --plugin-dir .`, open `/mcp`, and authorize Postroom through its OAuth flow. Verify the workspace using yet_profile before preparing content. Connector directory submission and plugin bundle submission are separate; this package is not a claim of directory approval.
+- **Social publishing:** choose connected accounts, use brand guidelines, prepare channel-specific previews, approve a specific preview before scheduling, and inspect delivery states.
+- **Media uploads:** create a secure workspace upload, upload existing media through a compatible client or authenticated Postroom browser page, then retrieve the saved media reference.
+- **Analytics and reporting:** inspect connected accounts, queued posts, published status and available cached analytics without treating unavailable metrics as zero.
 
-## Publishing and media
+The plugin does not create or publish content autonomously. Connecting an account or installing a plugin does not approve a post. Any scheduling must be separately authorized against the exact saved preview; cancellation needs separate user authorization.
 
-Previews are saved drafts, not scheduled posts. Review exact content, destinations and time before authorizing yet_approve. Cancellation needs explicit approval. Reuse existing receipts after uncertain responses; do not create duplicate posts.
+## Data access, processing, and destinations
 
-The MCP server does not generate images. A separately configured host capability may generate them. ChatGPT attachment import remains client-specific; Claude web attachment URLs are not supported. Direct image transfer requires a client capable of reading actual file bytes and PUTting them to the exact returned signed URL, then completing the upload. Do not claim Claude web can perform this merely because the server exposes upload tools.
+The bundled MCP endpoint is `https://social.notacompanynameyet.com/mcp/claude` (Streamable HTTP). It uses Postroom-managed OAuth 2.0 authorization. Users sign in through the Postroom browser OAuth flow; this bundle contains **no account credentials or API tokens** and does not request passwords in a chat.
 
-See the linked documentation, privacy policy and support page. No account connection authorizes publication automatically.
+With authorization, Postroom can read workspace identity, connected account metadata, brand guidance, queued posts, status, held previews, Pinterest boards, and cached analytics. It can store user-directed workspace previews, media, scheduling decisions, and status receipts. The remote Postroom service may send approved content and media to the relevant authorized social platform APIs to fulfil publishing requests. Media files uploaded to Postroom may be made publicly accessible for their intended publishing purpose. No undisclosed server or analytics recipient is added by this bundle. Data processing and retention are governed by the [Postroom privacy policy](https://social.notacompanynameyet.com/privacy-policy).
 
-## Submission readiness
+## Connecting and testing
 
-This is a prepared package, not a submitted or approved listing. Strict manifest validation passes on Claude Code 2.1.318. The directory profile additionally requires a repository/plugin license; no license grant has been invented for this business-owned package. Choose and supply the distribution license before directory submission, then run `claude plugin validate . --strict --profile directory`. Complete authenticated Claude tool testing separately.
+Install the plugin from the Claude directory or load this folder in Claude Code. Connect Postroom through the OAuth prompt and verify `yet_profile` is the intended workspace. Use `yet_accounts` and `yet_brand` to identify the authorized destination and brand voice. For Pinterest, choose a board returned by `yet_pinterest_boards`. Create a preview using `yet_preview` or `yet_run_workflow`; these actions do **not** schedule publication. Review and explicitly approve the exact preview before `yet_approve`. Use `yet_post_status` to distinguish a queued post from a published one.
+
+A valid image or video upload may be provided through `yet_create_media_upload`. If the client cannot upload file bytes directly, open the returned authenticated browser upload URL, select a local file, then retrieve the workspace reference through `yet_get_media_upload`. Some social platforms have different media restrictions. The connector does not generate AI images, video or audio.
+
+No hooks, local executables, package installation, telemetry, third-party scripts, or secret-bearing headers are included in this bundle.
+
+## Support
+
+- [Claude setup documentation](https://social.notacompanynameyet.com/docs/claude-connector)
+- [Media Gateway documentation](https://social.notacompanynameyet.com/docs/media-gateway)
+- [Support](https://social.notacompanynameyet.com/support)
+- [Terms](https://social.notacompanynameyet.com/terms-of-service)
+- [Privacy](https://social.notacompanynameyet.com/privacy-policy)
+
+Published by Vardhiva Innovations. Directory acceptance and publication remain subject to Anthropic's review.
