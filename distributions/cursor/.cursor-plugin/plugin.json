@@ -1,0 +1,22 @@
+{
+  "name": "postroom",
+  "displayName": "Postroom",
+  "version": "1.0.0",
+  "description": "Plan and publish social media posts in your authorized Postroom workspace with explicit preview approval and secure media handling.",
+  "author": {
+    "name": "Vardhiva Innovations",
+    "url": "https://social.notacompanynameyet.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "postroom",
+    "social media",
+    "social publishing",
+    "social scheduling",
+    "MCP",
+    "social analytics",
+    "content marketing",
+    "pinterest"
+  ],
+  "logo": "assets/Postroom.svg"
+}
